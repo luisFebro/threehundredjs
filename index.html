@@ -1,0 +1,309 @@
+<!--
+PROJECT: HACKED CELEBRATION: +300 Version 2.0 - custom-made bagde
+CODE WRITTEN BY: Luis Febro
+GOAL: Celebrate new badge making mention of main warriors who fought with me in the hall of fame and show reports on it.
+DATE OF LAUNCH: 07/17/19
+LAST MAIN UPDATES:
+Main updates from +300 version 2:
+1. More new warriors from second day of battle from 19th July 2019.
+2. New challenges titles (trophies and medals):
+*battle medals (up until 2 challenges);
+*maxSilver (1x multi storm [+3 challenges]);
+*maxSilverPlus (2x multi storm [+3 challenges each]);
+*maxGold (1x full storm [+12 challenges]);
+*maxGoldPlus (1x multi storm and 1x full storm);
+*maxPlatinum (2x full storm);
+There are 5 new brand trophy design creations.
+P.S no, there is no "max steel" u.u)
+3. Better RWD (Responsive Web Design) for all devices. Fixed tembling effect due to viewport on some types of mobile device especially Iphone and devices less than 230px of width.
+4. Added Polyfillers for JS code to get cross-browser/mobile compatibility. Now old smartphones/browsers pals can run my code too. (=
+5. Friendly general transitions and animations, and easterEggs around the code.
+6. Fixed text aligning from the pics, clean design for general elements.
+P.S The names are now out of reach from the mouth of the warriors. I do not know if someone noticed this, but I did and improved it.
+7. Accordions for reports for a more elegant visualization of informations in separated blocks.
+8. Different Modals both boxes and images for better visualization of key images and off-screen messages and multimedia.
+9. warrior's card on the hall of fame gallery including name, title and description, days of JS challenges battles and one dynamic ranking of SL stay - oldest to newest registered members according to ID.
+10. General fixes in the code includes improving structure of data and media query,  better description of identifiers, etc.
+Final Notes: Although my temptation of using really hassle-free libraries and frameworks, I was resolute to write a pure HTML/CSS/Vanilla JS code for this time. But just for a sake of the challenge that I have in mind.
+I will start exploring through them deeply very soon and make my life even easier. (=
+11. Added HTML5Shiv to support new HTML semantic elements and their styles.
+
+
+NEXT FIXES|UPDATE:
+1. fixed top red board is appearing too early. it supposes to appear only on the hall of fame. (pending)
+2. Flickering Effect while scrolling [line 614 JS] (solved);
+3. Fixed position for close button on modals (pending)
+4. alert button at the bottom displayed at the wrong time/ or runs only once. it supposes to display when user does not get infos in the cards. (pending)
+5. [line 109 CSS] Sticky position for close button on modal boxes (solved)
+6. [line 642 JS] - run function only if user click on the image to avoid all infos from the card to be replaced "-" when he/she click (pending)
+7. [line 64 HTML] modal image cards - set to scroll to the top every time the user switch between the warrior cards (pending);
+ESPECIAL THANKS FOR SUGGESTIONS TO:
+Radu Harangus
+Elena Shobotova.
+
+
+Found a bug or a better technique somewhere? Feel free to report your solution/warning in the comments below.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+    <meta charset="UTF-8">
+    <!-- content maximum-scale and user scalable disable zoom -->
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+    <link rel="stylesheet" href="style.css">
+
+    <!-- After all StyleSheets - HTML5Shiv for new semantic elements (old browsers) -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <h2 id="timerLaunch">Let's get started!</h2>
+    <div id="spinner" class="spinner"></div>
+    <div class="rainDrops"></div>
+<!-- MODALS AND ALERTS -->
+    <!-- MODAL BOXES -->
+    <div id="modalContainer" class="modalContainer">
+        <div id="modalContent" class="modalContent">
+            <div class="stickElemTop">
+                <span id="closeButton" class="closeButton">&times;</span>
+            </div>
+            <h1>SL issue</h1>
+            <img class="shadow enlargeImg" src="https://drive.google.com/uc?export=download&id=1aqmfAbIbEd5_zh2nbqpx9heei8zAlEdH" alt="SL issue">
+            <p>A few hours out of service can happen with the best platforms.<br>Better days to Sololearn App!</p>
+        </div>
+    </div>
+    <!-- profile warriors -->
+    <div id="modalContainer_warriors" class="modalContainer">
+        <div id="modalContent_warriors" class="modalContent" style="color:#fff; background-image: linear-gradient(to top, #453a94 0%, #c0392b 100%);">
+            <div class="stickElemTop">
+                <span id="closeButton_warriors" class="closeButton">&times;</span>
+            </div>
+            <div class="stickElemTop">
+                <img id="modalPicWarrior" class="modalPicWarrior shadow" style="filter: drop-shadow(5px 5px 10px #fff);" alt="Warrior presented in the modal">
+            </div>
+            <div class="alignElemCenter">
+                <img id="modalPicTrophy" class="modalPicTrophy shadowPrecise" alt="trophy presented in the modal">
+            </div>
+            <h3><strong>WARRIOR:<br><span id="nameWarrior"></span></strong></h3>
+            <p><strong>TROPHY'S TITLE:</strong><br><span id="trophysTitle"></span></p>
+            <p><strong>DESCRIPTION:</strong><br><span id="descTrophy"></span></p>
+            <p><strong>BATTLE DAYS:</strong><br><span id="battleDays"></span></p>
+            <p><strong>RATING OF SL STAY:</strong><br><span id="ratingStay"></span></p>
+        </div>
+    </div>
+
+    <!-- MODAL IMAGES -->
+    <div class="modalImgContainer">
+        <img class="modalImgContent">
+        <div class="modalImgCaption"></div>
+        <span class="modalImgClose">&times;</span>
+    </div>
+
+    <!-- ALERTS -->
+    <!-- warning -->
+    <div class="alertWarningBottom">
+        Click only once in the cards to see profiles.
+    </div>
+<!-- MODALS AND ALERTS - END-->
+
+    <header>
+        <h1 class="containerGreyradius shadow shakeImg" style="color: #fff; background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);">+300<br>CUSTOM-MADE<br>BADGE<br>Version 2.0</h1>
+    </header>
+    <main>
+        <img src="https://drive.google.com/uc?export=download&id=1djmmAs2rmf3KEN5NsbarvvV0Bvyc3ua6" alt="XP spartan Febro stats" class="targetModalImg" style="width: 100%;">
+    </main>
+    <br>
+    <br>
+    <br>
+    <section class="containerGreyradius shadow">
+        <h2>JS WARRIORS</h2>
+        <div class="shadowPrecise imgHallOfFame shakeImg">
+            <img src="https://imgur.com/iZsgP5v.png" alt="Hall of Fame Image">
+        </div>
+        <div id="titleHallEffect" class="titleHallEffect">JAVASCRIPT WARRIORS<span id="clickWarning"></span></div>
+        <br>
+        <p>Here some of my warriors in the spotlight who fought with me in the battlefield to help me out to achieve this epic results (both XPs and Wins) on 14th and 19th July, 2019. Try to find out who is the newest and oldest registed member in the cards. (=</p>
+        <main>
+            <div id="listWarriors" class="listWarriors">
+                <!-- list created in JS -->
+            </div>
+            <div>
+            <h3 id="loadingGallery"></h3>
+            <br>
+            <br>
+            <br>
+                <center>
+                    <img src="https://drive.google.com/uc?export=download&id=1cBwUbAyLl49YJeXOijQD4weDHFyFni_1" alt="febroSpartan - Oops. No network. Reload!" class="shadow enlargeImg" style="width: 200px; height: 200px">
+                </center>
+            </div>
+            <p>This list is dynamic and I do not know the order that is being displayed. Every new load, a new order. U.u</p>
+        </main>
+    </section>
+    <section>
+        <div class="containerGreyradius shadow" style="padding: 10px; max-width: 250px; text-align: center">
+            <q>This is Madness!</q></br>
+            <q>This is Sparta!</q><span> (=</span>
+        </div>
+        <div>
+            <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/rvYZRskNV3w?rel=0&autoplay=1&controls=1" frameborder="0" allow="accelerometer; autoplay; gyroscope; picture-in-picture"></iframe>
+            <div class="containerGreyradius shadow" style="padding:5px; margin-bottom: 100px; color:#fff; background-color: #96281b;">
+                <p>DISCLAIMER: I do not give the nod to some of the pranks presented in this video.
+                    <p>Just enjoy this viral video for contextualisation matters! =)</p>
+            </div>
+    </section>
+    <section>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div class="containerGreyradius shadow">
+            <h2>FINAL RECORD</h2>
+            <div>
+                <div class="alignElemCenter">
+                    <figure>
+                        <img src="https://media.giphy.com/media/2XOL4zsm6V0nm/giphy.gif" alt="Leonidas with shield in the rain" class="shadow">
+                        </img>
+                        <figcaption>&#169;giphy.com
+                        </figcaption>
+                    </figure>
+                </div>
+                <p>The +300 battles were fought for <strong>two days</strong> in the SL battlefields. See now the reports on them by clicking on the buttons below to see more exciting details...</p>
+            </div>
+            <!-- accordions -->
+            <button class="accordion">REPORT - DAY 1<span>On 14th July 2019</span></button>
+            <div class="panel">
+                <button class="accordion sub">A Fun and Pleasant Code</button>
+                <div class="panel">
+                    <div class="alignElemCenter" style="width: 100%;">
+                        <div class="alignTextBottomRight">
+                            <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="cat working" class="shakeImg shadow"></img>
+                            <div style="position: absolute; bottom:-8px; right:0;  font: normal 15px verdana, sans-serif;">&#169;giphy.com
+                            </div>
+                        </div>
+                    </div>
+                    <p>I enjoyed a lot making this code and it is in my top list of <strong>pleasant and fun code production</strong>. I even got inspired to brush up on my Photoshop skills. It seems that things go easier and flow naturally every time I revisit them. That's why this code awakened me to pull buried skills back out to life.</p>
+                </div>
+                <button class="accordion sub">Server Issue</button>
+                <div class="panel">
+                    <p>I supposed to publish this code the next day, but
+                        <button id="issueSlTrigger" class="shadow"><strong>this issue here</strong></button>
+                        occured. No big deal SL. it happens. EDITED: But the fact of taking 13 wins from my 302 ones and also other days is a big deal! (See more about on REPORT - DAY 2)
+                    </p>
+                </div>
+                <button class="accordion sub">Fun Fact on These Challenges</button>
+                <div class="panel">
+                    <div class="alignElemCenter" style="width: 100%;">
+                        <div class="alignTextBottomRight">
+                            <img src="https://media.giphy.com/media/1zTqgW6bS2jWU/giphy.gif" alt="challenge accepted" class="shakeImg shadow"></img>
+                            <div style="position: absolute; bottom:-8px; right:0;  font: normal 15px verdana, sans-serif;">&#169;giphy.com
+                            </div>
+                        </div>
+                    </div>
+                    <p>For 3 monthes, I engaged in a good parcel of my free time in making and learning from Javascript Challenges on Sololearn. On the +300 JS wins badge mission, I confess that I used way more than my free time to achieve this. I put all my intense focused energy on it - and I even was in doubt to accomplish it when there were still 80 challenges in 3 hours to go - but I hit the target goal in 2 hours for my surprise... In the next day (July 15th, 2019), after I have achieved this memorable number of JS wins, I decided to make something <i>dope</i> with the production of this code (By the way, not only with quiz challenges live a programmer). But the fun fact part comes up to say that I did not play any challenges during this entire next day and yet all the pending challenges from the epic day made me score 100 wins with an entire day of inactivity (it counts more than 400 challenges counting up draw, losses (6 of them), rejected and pending ones. Okay... it was 90 wins and I have to complete the rest up to 100 in the end of the day. But 90 wins without doing "nothing" looks like a very good XPs passive income. (=</p>
+                </div>
+            </div>
+
+
+            <!-- new main button -->
+            <button class="accordion">REPORT - DAY 2<span>On 19th July 2019</span></button>
+            <div class="panel">
+                <button class="accordion sub">My Surprise</button>
+                <div class="panel">
+                    <p>After a few days when I have finished this celebration code and then started advertising my custom-made +300 badge, I was surprised when I scrolled my profile and find out how hackable can be these challenge daily performance graphics, and I realized that my results have been altered due to Sololearn server instability (or hacking). Yeah! It was a good idea that I took screenshots and I have a solid proof about this unfortunate event:</p>
+                    <p><i>Click on the images for zooming if needed!</i></p>
+                    <div class="alignElemCenter enlargeImg shadow">
+                        <img class="targetModalImg" src="https://imgur.com/l4kwL6o.jpg" alt="my SL hacked stats comparison">
+                    </div>
+                    <p><i>The blue ellipse is a concrete proof that is the exact the same graphic I am comparing. Take a note that the last columns are different because I made more challenges during that same day.</i></p>
+                </div>
+
+                <button class="accordion sub">Requesting Support</button>
+                <div class="panel">
+                    <p>I sent an email to the SL support reporting the issue and I received in the next day this email below as feedback, but it made clear that they could not help me out apparently.</p>
+                    <div class="enlargeImg alignElemCenter shadow">
+                        <img class="targetModalImg" src="https://imgur.com/zVJzQ9T.png" alt="SL email received about issue">
+                    </div>
+                    <p>Right after that, I try again with new arguments on why they should help me like the fact that I was celebrating and advertising for something that I did not possess any longer in my graph screenshots - multimedia. One of these "minor differences" was 13 wins away from my original result. I sent more 2 emails after that with screenshots attached and code and I did not receive further feedback about it since then.</p>
+                    <p>It is not my style to make a decision of announcing delicate technical issues like this, but I waited for a solution more than a week and tried my best to solve it and make it as private as possible, but - since the support could not fix it, then I decided to write about it publicly. That's the reason I am writing about it. I learned a lot with Sololearn App and I thankful for everything they provided me, but I can not tolerate urfairness with my own endeveours at all and let it pass in blank. I am just making it clear.</p>
+                </div>
+
+                <button class="accordion sub">Motives and Recovery Mission</button>
+                <div class="panel">
+                    <div class="alignElemCenter" style="width: 100%;">
+                        <div class="alignTextBottomRight">
+                            <img src="https://media.giphy.com/media/26tP9F5MWTXOJL3DG/giphy.gif" alt="Mission Accomplished" class="shakeImg shadow"></img>
+                            <div style="position: absolute; bottom:-8px; right:0;  font: normal 15px verdana, sans-serif;">&#169;giphy.com
+                            </div>
+                        </div>
+                    </div>
+                    <p>As you may have perceived it already, this second mission day was not that pleasant moment as I had in the first day (both coding and challenges day). Coding because I faced issues with my code structure (although I inserted new cool things around) and SL servers are awkward these days. And in challenges day because I had to sacrifice even more than my tolerated time for trying again to rescue my result with these challenges <strong>in one single day</strong>. If I fought and I did once, then I can reach +300 wins for one more time and be in hope that my graphs do not be hacked again. That what I thought and I did as practical measure. Not only I accomplished the goal, but also overtake my previous record on Javascript wins in a day. From <strong>302 wins</strong> (not 289) to my new record of <strong>329 Javascript wins </strong>. (At the moment that I am writing this I still have my 329 wins with no hacking gladly). The second day was a mission to get my badge back since SL did not repair my issue. But everybody who check it out will notice that I indeed reached twice this badge.</p>
+                    <div class="enlargeImg alignElemCenter shadow">
+                        <img class="targetModalImg" src="https://i.imgur.com/ucEM4rA.jpg" alt="real result comparing">
+                    </div>
+                </div>
+                <button class="accordion sub">The Crucial Moments</button>
+                <div class="panel">
+                    <p>The second day was harder than the first one especially in the last hours it seemed like there were no more JS warriors to be challenged with. I remember that I sent JS challenges for about 1 hour straight without stopping with no response at all and I had less than 300 wins to go and less than 1:30 hours left.</p>
+                    <div class="alignElemCenter" style="width: 100%;">
+                        <div class="alignTextBottomRight">
+                            <img src="https://media.giphy.com/media/3o7aTskHEUdgCQAXde/giphy.gif" alt="John, where are the challengers?" class="shakeImg shadow"></img>
+                            <div style="position: absolute; bottom:-8px; right:0;  font: normal 15px verdana, sans-serif;">&#169;giphy.com
+                            </div>
+                        </div>
+                    </div>
+                    <p>Luckily I found a new group of amazing challengers who helped me in this most strained final crucial moment. Some names include: Tony, Julie Brase, Lavinia, Petta. I had reached at least 15 challenges limits with the best JS challengers around (some listed in the hall of fame who not necessary gave me wins, but draws for the most cases) - but this made the challenges even more exciting and - as the name suggests - challenging. You not only have to score high than the opponent, but win him/her for one single count of win. I used all strategies, experience and energy to get all of these wins.</p>
+                    <p>A great experience. Thanks to everybody who supported me during these adventures!</p>
+                    <div class="alignElemCenter" style="width: 100%;">
+                        <div class="alignTextBottomRight">
+                            <img src="https://media.giphy.com/media/xUPOqo6E1XvWXwlCyQ/giphy.gif" alt="Thats all folks" class="shadow"></img>
+                            <div style="position: absolute; bottom:-8px; right:0;  font: normal 15px verdana, sans-serif;">&#169;giphy.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- accordion - end -->
+            <br>
+            <div>
+                <p><a href=""><strong>THIS POST HERE</strong></a> is my official vindication on my graph issues.</p>
+                <p>Other great warriors from other times you can find <a href="https://www.sololearn.com/post/121559/?ref=app">here</a>.</p>
+                <p><strong>THE OFFICIAL SOLOLEARN POST</strong> about this code you can check it out over <a href="https://www.sololearn.com/post/125393/?ref=app">here</a>.</p>
+            </div>
+            <div class="shakeImg badgeSolo shadowPrecise">
+                <img src="https://drive.google.com/uc?export=download&id=1ApfFGN-aq8ZoNKMmdOnH4uc2wPzacIof" alt="homemade 300 sololearn badge">
+            </div>
+        </div>
+    </section>
+    <footer class="containerGreyradius shadow" style="margin-bottom: 200px;">
+        <center>
+            <h4>Code written and challenges played by:
+                <h3>Luis Febro<br>
+                    <span><a href="https://www.sololearn.com/Profile/4802958/?ref=app"> (profile here)</a></span>
+                </h3>
+        </center>
+        <div class="vanillaJS">
+            <img src="http://vanilla-js.com/assets/button.png">
+            </img>
+            <span style="font-size: 12px; float: right;">=)</span>
+        </div>
+    </footer>
+    <!-- START SCRIPT -->
+    <!-- start es5 shims -->
+    <!-- not working -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-sham.min.js"></script>
+    <script src="https://wzrd.in/standalone/es7-shim@latest"></script>
+    <!-- end es5 shims -->
+    <script src="main.js"></script>
+    <!-- END SCRIPT -->
+</body>
+
+</html>

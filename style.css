@@ -1,0 +1,1048 @@
+/*PROJECT: HACKED CELEBRATION: +300 Version 2.0 - custom-made bagde
+CODE WRITTEN BY: Luis Febro
+GOAL: Celebrate new badge making mention of main warriors who fought with me in the hall of fame and show reports on it.
+DATE OF LAUNCH: 07/17/19*/
+
+/*GENERAL ELEMENT TWEAKS*/
+* {
+    box-sizing: border-box;
+
+    z-index: 20;
+    /*highest - modalBox,  = 30 |
+    lowest - rainThunder = 10*/
+}
+
+/*hide horizontal scrollbar*/
+html, body {
+    max-width: 100%;
+
+    overflow-x: hidden;
+}
+
+
+body {
+    /*Centering Elements*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*Box Model*/
+
+    margin: 0;
+    padding: 0;
+
+    background: url('https://drive.google.com/uc?export=download&id=1veNJfnJJ1S44UJVva60P3HO5mO5xc0PM') no-repeat fixed, url('https://www.trevillion.com/cache/pcache2/00246590.jpg') #000 no-repeat fixed;
+    background-size: contain;
+    /*Text*/
+
+    text-align: justify;
+    font: normal 1.3em/1.6em Verdana, sans-serif;
+    /*animation: rain .3s ease-in infinite;*/
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+q {
+    font: bolder 1em/1.5em Verdana, sans-serif;
+}
+
+iframe {
+    max-width: 100%;
+
+    cursor: pointer;
+}
+
+
+img {
+    height: auto;
+    max-width: 100%;
+}
+
+figcaption {
+    position: relative;
+    top: -10px;
+
+    text-align: right;
+    font: normal 15px verdana, sans-serif;
+}
+
+button {
+    padding: 10px;
+
+    border: none;
+    background-color: #639;
+    color: #fff;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+}
+
+/*CONTAINERS*/
+.containerGreyradius {
+    max-width: 800px;
+    margin: 1.2em 1.2em;
+    padding: 12px 12px;
+
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+}
+
+/*ALIGN*/
+/*width and height to child element as needed*/
+.alignElemCenter {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+
+    align-self: flex-start;
+}
+
+/*For div container
+div after img: pos: absolute bottom: -8px right: 0*/
+.alignTextBottomRight {
+    position: relative;
+
+    text-align: right;
+    vertical-align: bottom;
+}
+
+/*For div
+For child: pos: absolute + chosen positions*/
+.stickElemTop {
+    position:         sticky;
+    position: -webkit-sticky;
+    top: 0;
+}
+/**/
+
+/*SHADOW*/
+.shadow {
+    box-shadow: 0 1px 18px 0 rgba(0, 0, 0, .2),
+    0 6px 20px 0 rgba(0, 0, 0, .19);
+}
+
+.shadowPrecise {
+    -webkit-filter: drop-shadow(5px 5px 10px #000);
+            filter: drop-shadow(5px 5px 10px #000);
+}
+
+.enlargeImg {
+    margin: 0 auto;
+
+    cursor: zoom-in;
+
+    transition: transform .75s ease-out;
+}
+
+/*GENERAL ELEMENTS*/
+.enlargeImg:hover, .enlargeImg:active {
+    -webkit-transform: scale(1.3);
+            transform: scale(1.3);
+}
+
+/*.fullWidthNestedDiv {
+    width: 100vw;
+    margin-left: -50vw;
+    left: 50%;
+    z-index: 50;
+}*/
+/**/
+
+.imgHallOfFame {
+    width: 100%;
+}
+
+
+/*
+MODALS AND ALERTS
+*/
+/*MODEL BOX*/
+/*Thanks to Alan Morel to help me out in the implementation of this model box.*/
+/*Semi-transparent hidden box*/
+.modalContainer {
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+
+    background-color: rgba(0, 0, 0, .5);
+    opacity: 0;
+
+    z-index: 30;
+
+    transition: visibility 0s linear .25s, opacity .25s 0s, transform .25s;
+    transform: scale(1.1);
+}
+
+.modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    height: 20rem;
+    width: 24rem;
+    margin-right: 3px;
+    margin-left: 3px;
+    padding: 1rem 1.5rem;
+
+    border-radius: .5rem;
+    background-color: #fff;
+
+    overflow: auto;
+
+    transform: translate(-50%, -50%);
+}
+
+.modalPicWarrior {
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 100px;
+    width: 100px;
+    margin: auto;
+
+    border-radius: 30%;
+
+    z-index: 20;
+}
+
+.modalPicTrophy {
+    position: absolute;
+    top: -5px;
+
+    height: 50%;
+    width: 50%;
+
+    z-index: 30;
+}
+
+.modalPicTrophy:hover, .modalPicTrophy:active {
+    -webkit-animation: swing 1s 1 ease;
+            animation: swing 1s 1 ease;
+}
+
+.closeButton {
+    position: absolute;
+    top: 13px;
+    right: 13px;
+
+    width: 1.5rem;
+
+    border-radius: .25rem;
+    background-color: lightgray;
+
+    text-align: center;
+    line-height: 1.5rem;
+
+    cursor: pointer;
+}
+
+.closeButton:hover {
+    background-color: darkgray;
+}
+
+.showModalBox {
+    visibility: visible;
+
+    opacity: 1;
+
+    transition: visibility 0s linear 0s, opacity .25s 0s, transform .25s;
+    transform: scale(1.0);
+}
+/**/
+
+/*MODAL IMAGE*/
+.targetModalImg {
+    cursor: zoom-out;
+
+    transition: .3s;
+}
+
+.modalImgContainer {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+    padding-top: 100px;
+
+    background-color: rgba(0, 0, 0, .7);
+
+    overflow: auto;
+    z-index: 40;
+}
+.modalImgContent {
+    width: 100%;
+}
+
+.modalImgCaption {
+    display: block;
+
+    height: 150px;
+    width: 80%;
+    max-width: 700px;
+    margin: auto;
+    padding: 10px 0;
+
+    color: #ccc;
+
+    text-align: center;
+}
+
+.modalImgContent, .modalImgCaption {
+    -webkit-animation-name: zoom;
+            animation-name: zoom;
+    -webkit-animation-duration: .6s;
+            animation-duration: .6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0);
+    }
+
+    to {
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+.modalImgClose {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+
+    color: #f1f1f1;
+
+    font-size: 40px;
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.modalImgClose:hover {
+    color: #bbb;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+/*ALERTS*/
+.alertWarningBottom {
+    position: fixed;
+    bottom: 0;
+
+    width: 100%;
+    padding: 15px;
+
+    background-color: #f9690e;
+    color: #fff;
+    opacity: 0;
+
+    text-align: center;
+    font: bold 1.1em verdana, sans-serif;
+
+    z-index: 40;
+
+    transition: opacity 1s ease-out;
+}
+/*MODALS AND ALERTS - END*/
+
+
+
+/*
+HALL OF FAME
+*/
+.titleHallEffect {
+    position: fixed;
+    display: inline-block;
+    visibility: hidden;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    width: 70%;
+    margin: auto;
+    padding: 8px;
+
+    background-color: #c0392b;
+    color: #fff;
+
+    text-align: center;
+    font: bolder .7em verdana, sans-serif;
+
+    z-index: 30;
+}
+
+/*AVATARS*/
+.listWarriors {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+
+.listWarriors > div {
+    margin-bottom: 25px;
+}
+
+.avatarContainer {
+    position: relative;
+    display: inline-block;
+
+    -webkit-transition: transform .2s ease-out;
+        -ms-transition: transform .2s ease-out;
+            transition: transform .2s ease-out;
+}
+
+.avatarContainer:hover, .avatarContainer:active {
+    z-index: 30;
+
+    -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+            transform: scale(1.5);
+}
+
+.nameWarrior {
+    position: absolute;
+    top: 75%;
+    right: 0;
+    left: 23px;
+
+    width: 150%;
+    /*This is important to align text*/
+    margin: 0 auto;
+
+    text-shadow: 1px 1px 5px white, 0 0 15px grey, 0 0 5px white;
+    opacity: .1;
+
+    font: bolder 1.3em 'Lucida Console', Monaco, monospace;
+
+    -webkit-transition: opacity .25s ease-in;
+       -moz-transition: opacity .25s ease-in;
+            transition: opacity .25s ease-in;
+}
+
+/*Modify another element when an action happens*/
+.avatarContainer:hover .nameWarrior {
+    opacity: 1;
+}
+
+
+.avatarDesign {
+    height: 6.5em;
+    width: 6.5em;
+
+    border-radius: 50%;
+}
+
+.trophyDesign {
+    position: absolute;
+    top: -30%;
+    right: -90px;
+    left: 0;
+
+    height: 5.500em;
+    width: 5.500em;
+    margin: 0 auto;
+
+    -webkit-filter: drop-shadow(5px 5px 10px #000);
+         -o-filter: drop-shadow(5px 5px 10px #000);
+            filter: drop-shadow(5px 5px 10px #000);
+
+    -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+         -o-transform: scale(1);
+            transform: scale(1);
+}
+
+.badgeSolo {
+    position: relative;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height: 330px;
+    width: 330px;
+    margin: auto;
+    padding: 40px;
+
+    -webkit-filter: drop-shadow(5px 5px 10px #000);
+            filter: drop-shadow(5px 5px 10px #000);
+}
+
+.vanillaJS {
+    position: relative;
+    float: left;
+    bottom: 0;
+    left: 0;
+
+    height: 20px;
+    width: 100px;
+}
+
+
+/*ACCORDION*/
+.accordion {
+    position: relative;
+
+    width: 100%;
+    padding: 30px 0 0 30px;
+
+    border: 2px solid #fff;
+    background-color: #c0392b;
+    outline: none;
+    color: #fff;
+
+    text-align: left;
+    text-decoration: none;
+    font: bolder 1.3em cursive, sans-serif;
+
+    cursor: pointer;
+
+    transition: .5s ease-in;
+}
+
+.accordion span {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 7px 7px 0 0;
+
+    font-size: 15px;
+}
+
+.accordion:after {
+    content: '\002B';
+    /* plus */
+    float: right;
+
+    color: #fff;
+
+    font: bolder 3em cursive, sans-serif;
+}
+
+.accordion ~ .panel {
+    max-height: 0;
+    padding: 0 1px;
+    /* top and bottom is 0 so that there is no space between panel options */
+
+    background-color: white;
+
+    overflow: hidden;
+
+    transition: max-height .2s ease-out;
+}
+
+.panel .sub {
+    background-image: linear-gradient(to top, #0c3483 0%, #a2b6df 100%, #6b8cce 100%, #a2b6df 100%);
+}
+
+/*Not working - I dunno why*/
+.sub .active, .sub:hover {
+    background-color: #c5eff7;
+}
+
+.accordion.active {
+    text-shadow: 1px 1px 5px #000, 0 0 15px grey, 0 0 5px #000;
+
+    text-align: center;
+    font: bolder 30px cursive, sans-serif;
+}
+
+.accordion.active + .panel {
+    max-height: 7500px;
+    margin-left: 1em;
+}
+
+.accordion.active, .accordion:hover {
+    background-color: #f1a9a0;
+}
+
+.accordion.active:after {
+    content: '\2212';
+    /* minus */
+}
+
+/*
+ANIMATIONS
+ */
+/*PRELOADER*/
+/* SOURCE: https://codepen.io/smashtheshell/pen/jqGxzr*/
+.spinner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 80px;
+    width: 80px;
+    margin: auto;
+
+    border: 2px solid #f3f3f3;
+    border-top: 3px solid #f25a41;
+    border-radius: 100%;
+
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*RAIN AND THUNDER EFFECTS*/
+/*code snippet adapted from:
+SOURCE: Tech-gram Academy (https://www.youtube.com/watch?v=2rAWtqtzqb8)*/
+/*rainDrops animation not working*/
+.rainDrops {
+    height: 100%;
+    width: 100%;
+
+    z-index: 10;
+    /*background: center url("rain.png") fixed;*/
+
+    /*animation: rain .3s ease-in infinite;*/
+}
+
+@-webkit-keyframes rain {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 20% 100%;
+    }
+}
+
+@keyframes rain {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 20% 100%;
+    }
+}
+
+.rainDrops:before {
+    content: '';
+    position: fixed;
+
+    height: 100%;
+    width: 100%;
+
+    background: #fff;
+    opacity: 0;
+
+    animation: thunder 4s linear infinite;
+}
+
+@-webkit-keyframes thunder {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0;
+    }
+
+    11% {
+        opacity: 1;
+    }
+
+    14% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+    21% {
+        opacity: 1;
+    }
+
+    24% {
+        opacity: 0;
+    }
+
+    104% {
+        opacity: 0;
+    }
+}
+
+@keyframes thunder {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0;
+    }
+
+    11% {
+        opacity: 1;
+    }
+
+    14% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+    21% {
+        opacity: 1;
+    }
+
+    24% {
+        opacity: 0;
+    }
+
+    104% {
+        opacity: 0;
+    }
+}
+
+/**/
+
+.growBox {
+    animation: grow .7s 3s 4 linear;
+}
+
+@-webkit-keyframes grow {
+    0% {
+        -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+                transform: scale(1);
+    }
+
+    50% {
+        -webkit-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+                transform: scale(1.3);
+    }
+
+    100% {
+        -webkit-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+                transform: scale(1.3);
+    }
+}
+
+@keyframes grow {
+    0% {
+        -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+                transform: scale(1);
+    }
+
+    50% {
+        -webkit-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+                transform: scale(1.3);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+                transform: scale(1);
+    }
+}
+
+/**/
+
+.avatarContainer:hover .swing, .avatarContainer:active .swing, .swing:hover, .swing:active {
+    -webkit-animation: swing 1s 1 ease;
+            animation: swing 1s 1 ease;
+}
+
+
+
+@-webkit-keyframes swing {
+    15% {
+        -webkit-transform: translateX(5px);
+                transform: translateX(5px);
+    }
+
+    30% {
+        -webkit-transform: translateX(-5px);
+                transform: translateX(-5px);
+    }
+
+    50% {
+        -webkit-transform: translateX(3px);
+                transform: translateX(3px);
+    }
+
+    65% {
+        -webkit-transform: translateX(-3px);
+                transform: translateX(-3px);
+    }
+
+    80% {
+        -webkit-transform: translateX(2px);
+                transform: translateX(2px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+                transform: translateX(0);
+    }
+}
+
+@keyframes swing {
+    15% {
+        -webkit-transform: translateX(5px);
+                transform: translateX(5px);
+    }
+
+    30% {
+        -webkit-transform: translateX(-5px);
+                transform: translateX(-5px);
+    }
+
+    50% {
+        -webkit-transform: translateX(3px);
+                transform: translateX(3px);
+    }
+
+    65% {
+        -webkit-transform: translateX(-3px);
+                transform: translateX(-3px);
+    }
+
+    80% {
+        -webkit-transform: translateX(2px);
+                transform: translateX(2px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+                transform: translateX(0);
+    }
+}
+
+/*SHAKE IMAGE*/
+/*SOURCE: https://www.w3schools.com/howto/howto_css_shake_image.asp*/
+.shakeImg:hover, .shakeImg:active {
+    animation: shake .5s infinite;
+    animation-iteration-count: infinite;
+}
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+/**/
+
+
+
+/*
+RWD Media Query
+ */
+/* RWD means Responsive Web Design.
+This project is mobile first oriented one. The order in which these media is put here is important. Mobile > Tablet > Display
+If I insert desktop RWD before Tablet - then desktop would not work out*/
+/*TABLET RWD*/
+@media only screen and (min-width: 380px) {
+    body {
+        background: url('https://drive.google.com/uc?export=download&id=1veNJfnJJ1S44UJVva60P3HO5mO5xc0PM') no-repeat fixed, url('https://www.trevillion.com/cache/pcache2/00246590.jpg') #000 no-repeat fixed;
+        background-size: 100% 105%;
+        /*105% adjust in width position */
+    }
+
+    .alertWarningBottom {
+        font: bold 2em verdana, sans-serif;
+    }
+}
+/*MOBILE FIRST RESPONSIVE MEDIA QUERIES*/
+/*DESKTOP RWD*/
+@media only screen and (min-width: 792px) {
+    body {
+        background: url('https://drive.google.com/uc?export=download&id=1veNJfnJJ1S44UJVva60P3HO5mO5xc0PM') no-repeat fixed, url('https://drive.google.com/uc?export=download&id=1N_RGqKpy7gJ1kEI6Xlnq5JSZcqecc6Pg') #000 no-repeat fixed;
+        background-size: 100% 100%;
+    }
+
+    .imgHallOfFame {
+        display: flex;
+        justify-content: center;
+
+        width: 100%;
+        width: 100%;
+        margin: 10px;
+        padding: 10px;
+
+        align-self: flex-start;
+    }
+
+    .alertWarningBottom {
+        font: bold 2em verdana, sans-serif;
+    }
+
+    .modalImgContent {
+        display: block;
+
+        width: 80%;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    /*    .titleHallEffect {
+        font: bolder 1em verdana, sans-serif;
+        color: #fff;
+        background-color: #c0392b;
+        position: -webkit-sticky;
+        position: sticky;
+        display: none;
+        width: 100%;
+        z-index: 30;
+    }*/
+
+    .modalContent {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        height: 25rem;
+        width: 22rem;
+        padding: 1rem 1.5rem;
+
+        border-radius: .5rem;
+        background-color: #fff;
+
+        overflow: auto;
+
+        transform: translate(-50%, -50%);
+    }
+
+    /*EFFECT OF MAKING TROPHY APPEARING FROM TOP RIGHT*/
+    .trophyDesign {
+        position: absolute;
+        top: -30%;
+        right: -90px;
+        left: 0;
+
+        height: 5.500em;
+        width: 5.500em;
+        margin: 0 auto;
+
+        -webkit-filter: drop-shadow(5px 5px 10px #000);
+             -o-filter: drop-shadow(5px 5px 10px #000);
+                filter: drop-shadow(5px 5px 10px #000);
+
+        -webkit-animation: showTrophy 3s ease-out 1s 1 normal forwards;
+             -o-animation: showTrophy 3s ease-out 1s 1 normal forwards;
+                animation: showTrophy 3s ease-out 1s 1 normal forwards;
+    }
+    /*not working*/
+    .avatarContainer:hover {
+        -webkit-animation-play-state: paused;
+                animation-play-state: paused;
+    }
+
+    .avatarContainer:hover {
+        -webkit-animation-play-state: paused;
+                animation-play-state: paused;
+    }
+
+
+    @-webkit-keyframes showTrophy {
+        0% {
+            visibility: hidden;
+
+            transform: translate(1000px, -1000px);
+        }
+        100% {
+            visibility: visible;
+
+            transform: translate(0, 0);
+        }
+    }
+
+    @keyframes showTrophy {
+        0% {
+            visibility: hidden;
+
+            transform: translate(1000px, -1000px);
+        }
+        100% {
+            visibility: visible;
+
+            transform: translate(0, 0);
+        }
+    }
+}
